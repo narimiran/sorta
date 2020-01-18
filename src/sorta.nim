@@ -410,50 +410,39 @@ proc `$`*[Key, Val](b: SortedTable[Key, Val]): string =
 proc len*[Key, Val](b: SortedTable[Key, Val]): int {.inline.} = b.entries
 
 
-template findAll(h, result, element, procName) {.dirty.} =
-  if h.p0.isNil:
-    for j in 0 ..< h.m:
-      result.add(element)
-  else:
-    procName(h.p0, result)
-    for j in 0 ..< h.m:
-      result.add(element)
-      procName(h.e[j].p, result)
+iterator entries[Key, Val](b: SortedTable[Key, Val]): Entry[Key, Val] =
+  template populateWithLeftmostChildren(stack, currentNode) =
+    while not currentNode.isNil:
+      for i in countdown(currentNode.m-1, 0):
+        stack.add(currentNode.e[i])
+      currentNode = currentNode.p0
 
+  var
+    root = b.root
+    currentEntry: Entry[Key, Val]
+    stack = newSeq[Entry[Key, Val]]()
 
-proc findAllPairs[Key, Val](h: Node[Key, Val], result: var seq[(Key, Val)]) =
-  findAll(h, result, (h.e[j].key, h.e[j].val), findAllPairs)
+  stack.populateWithLeftmostChildren(root)
+  while stack.len > 0:
+    currentEntry = stack.pop()
+    yield currentEntry
+    stack.populateWithLeftmostChildren(currentEntry.p)
 
-proc findAllKeys[Key, Val](h: Node[Key, Val], result: var seq[Key]) =
-  findAll(h, result, h.e[j].key, findAllKeys)
-
-proc findAllValues[Key, Val](h: Node[Key, Val], result: var seq[Val]) =
-  findAll(h, result, h.e[j].val, findAllValues)
-
-
-iterator pairs*[Key, Val](b: SortedTable[Key, Val]): (Key, Val) =
-  ## Iterates over all `(key, value)` pairs in the table `b`.
-  if not b.root.isNil:
-    var allPairs = newSeqOfCap[(Key, Val)](b.entries)
-    findAllPairs(b.root, allPairs)
-    for p in allPairs:
-      yield p
 
 iterator keys*[Key, Val](b: SortedTable[Key, Val]): Key =
   ## Iterates over all the keys in the table `b`.
-  if not b.root.isNil:
-    var allKeys = newSeqOfCap[Key](b.entries)
-    findAllKeys(b.root, allKeys)
-    for k in allKeys:
-      yield k
+  for e in entries(b):
+    yield e.key
 
 iterator values*[Key, Val](b: SortedTable[Key, Val]): Val =
   ## Iterates over all the values in the table `b`.
-  if not b.root.isNil:
-    var allValues = newSeqOfCap[Val](b.entries)
-    findAllValues(b.root, allValues)
-    for v in allValues:
-      yield v
+  for e in entries(b):
+    yield e.val
+
+iterator pairs*[Key, Val](b: SortedTable[Key, Val]): (Key, Val) =
+  ## Iterates over all `(key, value)` pairs in the table `b`.
+  for e in entries(b):
+    yield (e.key, e.val)
 
 
 proc `==`*[Key, Val](a, b: SortedTable[Key, Val]): bool =
@@ -464,12 +453,10 @@ proc `==`*[Key, Val](a, b: SortedTable[Key, Val]): bool =
   if a.root.isNil and b.root.isNil:
     return true
   if a.entries == b.entries:
-    var aPairs = newSeqOfCap[(Key, Val)](a.entries)
-    findAllPairs(a.root, aPairs)
-    var bPairs = newSeqOfCap[(Key, Val)](b.entries)
-    findAllPairs(b.root, bPairs)
-    return aPairs == bPairs
-
+    for k, v in a:
+      if not b.hasKey(k): return false
+      if b.getOrDefault(k) != v: return false
+    return true
 
 
 

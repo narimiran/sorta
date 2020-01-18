@@ -384,7 +384,6 @@ test "hasKeyOrPut":
 
 
 
-
 test "iterators":
   var x = @[(3, 30), (4, 40), (1, 10), (2, 20), (6, 60), (5, 50), (7, 70)]
 
@@ -401,6 +400,22 @@ test "iterators":
   assert p == p_exp
   assert k == k_exp
   assert v == v_exp
+
+  var animals = @["cat", "bat", "mouse", "dog", "elephant", "cow", "horse"]
+  var animalLengths: SortedTable[string, int]
+
+  for animal in animals:
+    animalLengths[animal] = animal.len
+
+  var a_keys = @["bat", "cat", "cow", "dog", "elephant", "horse", "mouse"]
+  var a_pairs = @[("bat", 3), ("cat", 3), ("cow", 3), ("dog", 3),
+                  ("elephant", 8), ("horse", 5), ("mouse", 5)]
+
+  var ak = toSeq(keys(animalLengths))
+  var ap = toSeq(pairs(animalLengths))
+
+  assert ak == a_keys
+  assert ap == a_pairs
 
 
 
