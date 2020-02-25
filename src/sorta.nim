@@ -429,6 +429,26 @@ iterator entries[Key, Val](b: SortedTable[Key, Val]): Entry[Key, Val] =
     stack.populateWithLeftmostChildren(currentEntry.p)
 
 
+iterator mentries[Key, Val](b: var SortedTable[Key, Val]): var Entry[Key, Val] =
+  template populateWithLeftmostChildren(stack, cntNode) =
+    var currentNode = cntNode
+    while not currentNode[].isNil:
+      for i in countdown(currentNode[].m-1, 0):
+        stack.add(addr currentNode[].e[i])
+      currentNode = addr currentNode[].p0
+
+  var
+    root = unsafeAddr b.root
+    currentEntry: ptr Entry[Key, Val]
+    stack = newSeq[ptr Entry[Key, Val]]()
+
+  stack.populateWithLeftmostChildren(root)
+  while stack.len > 0:
+    currentEntry = stack.pop()
+    yield currentEntry[]
+    stack.populateWithLeftmostChildren(addr currentEntry[].p)
+
+
 iterator keys*[Key, Val](b: SortedTable[Key, Val]): Key =
   ## Iterates over all the keys in the table `b`.
   for e in entries(b):
@@ -439,9 +459,21 @@ iterator values*[Key, Val](b: SortedTable[Key, Val]): Val =
   for e in entries(b):
     yield e.val
 
+iterator mvalues*[Key, Val](b: var SortedTable[Key, Val]): var Val =
+  ## Iterates over all the values in the table `b`.
+  ## The values can be modified.
+  for e in mentries(b):
+    yield e.val
+
 iterator pairs*[Key, Val](b: SortedTable[Key, Val]): (Key, Val) =
   ## Iterates over all `(key, value)` pairs in the table `b`.
   for e in entries(b):
+    yield (e.key, e.val)
+
+iterator mpairs*[Key, Val](b: var SortedTable[Key, Val]): (Key, var Val) =
+  ## Iterates over all `(key, value)` pairs in the table `b`.
+  ## The values can be modified.
+  for e in mentries(b):
     yield (e.key, e.val)
 
 
