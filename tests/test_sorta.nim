@@ -494,14 +494,14 @@ test "equal":
 
 
 test "modify values":
-    var a = {'a': 99, 'b': 88, 'c': 77, 'd': 66, 'e': 55, 'f': 44}.toSortedTable
-    for k, v in mpairs(a):
-      v = v div 11
-    doAssert a['a'] == 9
-    doAssert a['b'] == 8
-    doAssert a['f'] == 4
-    for v in mvalues(a):
-      v += 10
-    doAssert a['a'] == 19
-    doAssert a['b'] == 18
-    doAssert a['f'] == 14
+  var a = {'a': 99, 'b': 88, 'c': 77, 'd': 66, 'e': 55, 'f': 44}.toSortedTable
+  for k, v in mpairs(a):
+    v = v div 11
+  doAssert a['a'] == 9
+  doAssert a['b'] == 8
+  doAssert a['f'] == 4
+  for v in mvalues(a):
+    v += 10
+  doAssert a['a'] == 19
+  doAssert a['b'] == 18
+  doAssert a['f'] == 14
