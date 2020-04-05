@@ -466,30 +466,43 @@ proc cursorFromStart[Key, Val](b: SortedTable[Key, Val]): Cursor[Key, Val] =
     a = a.p0
   result.add((nil, 0))
 
-iterator pairsFrom*[Key, Val](b: SortedTable[Key, Val], fromKey: Key): tuple[key: Key, val: Val] =
+iterator entries[Key, Val](b: SortedTable[Key, Val]): CursorPosition[Key, Val] =
+  var cursor = b.cursorFromStart
+  while cursor.next:
+    yield cursor.current
+
+iterator entriesFrom[Key, Val](b: SortedTable[Key, Val],
+                                fromKey: Key): CursorPosition[Key, Val] =
   ## Iterates the sorted table from the given key to the end.
   var cursor = b.search(fromKey)
   while cursor.next:
-    let position = cursor.current
-    yield (position.key, position.val)
+    yield cursor.current
 
-iterator pairsBetween*[Key, Val](b: SortedTable[Key, Val], fromKey: Key, toKey: Key): tuple[key: Key, val: Val] =
+iterator entriesBetween[Key, Val](b: SortedTable[Key, Val],
+                                   fromKey: Key, toKey: Val): CursorPosition[Key, Val] =
   ## Iterates the sorted table from fromKey to toKey inclusive.
   var cursor = b.search(fromKey)
   while cursor.next:
     let position = cursor.current
     if not leq(position.key, toKey):
       break
-    yield (position.key, position.val)
+    yield position
 
-iterator entries[Key, Val](b: SortedTable[Key, Val]): CursorPosition[Key, Val] =
-  var cursor = b.cursorFromStart
-  while cursor.next:
-    yield cursor.current
 
 iterator keys*[Key, Val](b: SortedTable[Key, Val]): Key =
   ## Iterates over all the keys in the table `b`.
   for e in entries(b):
+    yield e.key
+
+iterator keysFrom*[Key, Val](b: SortedTable[Key, Val], fromKey: Key): Key =
+  ## Iterates over keys in the table from `fromKey` to the end.
+  for e in entriesFrom(b, fromKey):
+    yield e.key
+
+iterator keysBetween*[Key, Val](b: SortedTable[Key, Val],
+                                fromKey: Key, toKey: Key): Key =
+  ## Iterates over keys in the table from `fromKey` to `toKey` inclusive.
+  for e in entriesBetween(b, fromKey, toKey):
     yield e.key
 
 iterator values*[Key, Val](b: SortedTable[Key, Val]): Val =
@@ -503,6 +516,17 @@ iterator mvalues*[Key, Val](b: var SortedTable[Key, Val]): var Val =
   for e in entries(b):
     yield e.mval
 
+iterator valuesFrom*[Key, Val](b: SortedTable[Key, Val], fromKey: Key): Val =
+  ## Iterates over the values in the table from the given key to the end.
+  for e in entriesFrom(b, fromKey):
+    yield e.val
+
+iterator valuesBetween*[Key, Val](b: SortedTable[Key, Val],
+                                  fromKey: Key, toKey: Key): Val =
+  ## Iterates over the values in the table from `fromKey` to `toKey` inclusive.
+  for e in entriesBetween(b, fromKey, toKey):
+    yield e.val
+
 iterator pairs*[Key, Val](b: SortedTable[Key, Val]): (Key, Val) =
   ## Iterates over all `(key, value)` pairs in the table `b`.
   for e in entries(b):
@@ -513,6 +537,18 @@ iterator mpairs*[Key, Val](b: var SortedTable[Key, Val]): (Key, var Val) =
   ## The values can be modified.
   for e in entries(b):
     yield (e.key, e.mval)
+
+iterator pairsFrom*[Key, Val](b: SortedTable[Key, Val],
+                              fromKey: Key): tuple[key: Key, val: Val] =
+  ## Iterates over `(key, value)` pairs in the table from the given key to the end.
+  for e in entriesFrom(b, fromKey):
+    yield (e.key, e.val)
+
+iterator pairsBetween*[Key, Val](b: SortedTable[Key, Val],
+                                 fromKey: Key, toKey: Key): tuple[key: Key, val: Val] =
+  ## Iterates over `(key, value)` pairs in the table from `fromKey` to `toKey` inclusive.
+  for e in entriesBetween(b, fromKey, toKey):
+    yield (e.key, e.val)
 
 
 proc `==`*[Key, Val](a, b: SortedTable[Key, Val]): bool =
@@ -643,5 +679,5 @@ when isMainModule:
     for key, val in mutate_st.mpairs:
       val = "three"
     doAssert mutate_st["a"] == "three"
-  
+
   main()

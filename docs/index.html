@@ -146,14 +146,27 @@ function main() {
   <ul class="simple simple-toc-section">
       <li><a class="reference" href="#keys.i%2CSortedTable%5BKey%2CVal%5D"
     title="keys[Key, Val](b: SortedTable[Key, Val]): Key"><wbr />keys<span class="attachedType">SortedTable</span></a></li>
+  <li><a class="reference" href="#keysFrom.i%2CSortedTable%5BKey%2CVal%5D%2CKey"
+    title="keysFrom[Key, Val](b: SortedTable[Key, Val]; fromKey: Key): Key"><wbr />keys<wbr />From<span class="attachedType">SortedTable</span></a></li>
+  <li><a class="reference" href="#keysBetween.i%2CSortedTable%5BKey%2CVal%5D%2CKey%2CKey"
+    title="keysBetween[Key, Val](b: SortedTable[Key, Val]; fromKey: Key; toKey: Key): Key"><wbr />keys<wbr />Between<span class="attachedType">SortedTable</span></a></li>
   <li><a class="reference" href="#values.i%2CSortedTable%5BKey%2CVal%5D"
     title="values[Key, Val](b: SortedTable[Key, Val]): Val"><wbr />values<span class="attachedType">SortedTable</span></a></li>
   <li><a class="reference" href="#mvalues.i%2CSortedTable%5BKey%2CVal%5D"
     title="mvalues[Key, Val](b: var SortedTable[Key, Val]): var Val"><wbr />mvalues<span class="attachedType">SortedTable</span></a></li>
+  <li><a class="reference" href="#valuesFrom.i%2CSortedTable%5BKey%2CVal%5D%2CKey"
+    title="valuesFrom[Key, Val](b: SortedTable[Key, Val]; fromKey: Key): Val"><wbr />values<wbr />From<span class="attachedType">SortedTable</span></a></li>
+  <li><a class="reference" href="#valuesBetween.i%2CSortedTable%5BKey%2CVal%5D%2CKey%2CKey"
+    title="valuesBetween[Key, Val](b: SortedTable[Key, Val]; fromKey: Key; toKey: Key): Val"><wbr />values<wbr />Between<span class="attachedType">SortedTable</span></a></li>
   <li><a class="reference" href="#pairs.i%2CSortedTable%5BKey%2CVal%5D"
     title="pairs[Key, Val](b: SortedTable[Key, Val]): (Key, Val)"><wbr />pairs<span class="attachedType">SortedTable</span></a></li>
   <li><a class="reference" href="#mpairs.i%2CSortedTable%5BKey%2CVal%5D"
     title="mpairs[Key, Val](b: var SortedTable[Key, Val]): (Key, var Val)"><wbr />mpairs<span class="attachedType">SortedTable</span></a></li>
+  <li><a class="reference" href="#pairsFrom.i%2CSortedTable%5BKey%2CVal%5D%2CKey"
+    title="pairsFrom[Key, Val](b: SortedTable[Key, Val]; fromKey: Key): tuple[key: Key, val: Val]"><wbr />pairs<wbr />From<span class="attachedType">SortedTable</span></a></li>
+  <li><a class="reference" href="#pairsBetween.i%2CSortedTable%5BKey%2CVal%5D%2CKey%2CKey"
+    title="pairsBetween[Key, Val](b: SortedTable[Key, Val]; fromKey: Key; toKey: Key): tuple[
+    key: Key, val: Val]"><wbr />pairs<wbr />Between<span class="attachedType">SortedTable</span></a></li>
 
   </ul>
 </li>
@@ -307,6 +320,20 @@ The <tt class="docutils literal"><span class="pre">$</span></tt> operator for ta
 Iterates over all the keys in the table <tt class="docutils literal"><span class="pre">b</span></tt>.
 
 </dd>
+<a id="keysFrom.i,SortedTable[Key,Val],Key"></a>
+<dt><pre><span class="Keyword">iterator</span> <a href="#keysFrom.i%2CSortedTable%5BKey%2CVal%5D%2CKey"><span class="Identifier">keysFrom</span></a><span class="Other">[</span><span class="Identifier">Key</span><span class="Other">,</span> <span class="Identifier">Val</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">b</span><span class="Other">:</span> <a href="sorta.html#SortedTable"><span class="Identifier">SortedTable</span></a><span class="Other">[</span><span class="Identifier">Key</span><span class="Other">,</span> <span class="Identifier">Val</span><span class="Other">]</span><span class="Other">;</span> <span class="Identifier">fromKey</span><span class="Other">:</span> <span class="Identifier">Key</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">Key</span></pre></dt>
+<dd>
+
+Iterates over keys in the table from <tt class="docutils literal"><span class="pre">fromKey</span></tt> to the end.
+
+</dd>
+<a id="keysBetween.i,SortedTable[Key,Val],Key,Key"></a>
+<dt><pre><span class="Keyword">iterator</span> <a href="#keysBetween.i%2CSortedTable%5BKey%2CVal%5D%2CKey%2CKey"><span class="Identifier">keysBetween</span></a><span class="Other">[</span><span class="Identifier">Key</span><span class="Other">,</span> <span class="Identifier">Val</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">b</span><span class="Other">:</span> <a href="sorta.html#SortedTable"><span class="Identifier">SortedTable</span></a><span class="Other">[</span><span class="Identifier">Key</span><span class="Other">,</span> <span class="Identifier">Val</span><span class="Other">]</span><span class="Other">;</span> <span class="Identifier">fromKey</span><span class="Other">:</span> <span class="Identifier">Key</span><span class="Other">;</span> <span class="Identifier">toKey</span><span class="Other">:</span> <span class="Identifier">Key</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">Key</span></pre></dt>
+<dd>
+
+Iterates over keys in the table from <tt class="docutils literal"><span class="pre">fromKey</span></tt> to <tt class="docutils literal"><span class="pre">toKey</span></tt> inclusive.
+
+</dd>
 <a id="values.i,SortedTable[Key,Val]"></a>
 <dt><pre><span class="Keyword">iterator</span> <a href="#values.i%2CSortedTable%5BKey%2CVal%5D"><span class="Identifier">values</span></a><span class="Other">[</span><span class="Identifier">Key</span><span class="Other">,</span> <span class="Identifier">Val</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">b</span><span class="Other">:</span> <a href="sorta.html#SortedTable"><span class="Identifier">SortedTable</span></a><span class="Other">[</span><span class="Identifier">Key</span><span class="Other">,</span> <span class="Identifier">Val</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">Val</span></pre></dt>
 <dd>
@@ -319,6 +346,20 @@ Iterates over all the values in the table <tt class="docutils literal"><span cla
 <dd>
 
 Iterates over all the values in the table <tt class="docutils literal"><span class="pre">b</span></tt>. The values can be modified.
+
+</dd>
+<a id="valuesFrom.i,SortedTable[Key,Val],Key"></a>
+<dt><pre><span class="Keyword">iterator</span> <a href="#valuesFrom.i%2CSortedTable%5BKey%2CVal%5D%2CKey"><span class="Identifier">valuesFrom</span></a><span class="Other">[</span><span class="Identifier">Key</span><span class="Other">,</span> <span class="Identifier">Val</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">b</span><span class="Other">:</span> <a href="sorta.html#SortedTable"><span class="Identifier">SortedTable</span></a><span class="Other">[</span><span class="Identifier">Key</span><span class="Other">,</span> <span class="Identifier">Val</span><span class="Other">]</span><span class="Other">;</span> <span class="Identifier">fromKey</span><span class="Other">:</span> <span class="Identifier">Key</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">Val</span></pre></dt>
+<dd>
+
+Iterates over the values in the table from the given key to the end.
+
+</dd>
+<a id="valuesBetween.i,SortedTable[Key,Val],Key,Key"></a>
+<dt><pre><span class="Keyword">iterator</span> <a href="#valuesBetween.i%2CSortedTable%5BKey%2CVal%5D%2CKey%2CKey"><span class="Identifier">valuesBetween</span></a><span class="Other">[</span><span class="Identifier">Key</span><span class="Other">,</span> <span class="Identifier">Val</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">b</span><span class="Other">:</span> <a href="sorta.html#SortedTable"><span class="Identifier">SortedTable</span></a><span class="Other">[</span><span class="Identifier">Key</span><span class="Other">,</span> <span class="Identifier">Val</span><span class="Other">]</span><span class="Other">;</span> <span class="Identifier">fromKey</span><span class="Other">:</span> <span class="Identifier">Key</span><span class="Other">;</span> <span class="Identifier">toKey</span><span class="Other">:</span> <span class="Identifier">Key</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">Val</span></pre></dt>
+<dd>
+
+Iterates over the values in the table from <tt class="docutils literal"><span class="pre">fromKey</span></tt> to <tt class="docutils literal"><span class="pre">toKey</span></tt> inclusive.
 
 </dd>
 <a id="pairs.i,SortedTable[Key,Val]"></a>
@@ -335,6 +376,22 @@ Iterates over all <tt class="docutils literal"><span class="pre">(key, value)</s
 Iterates over all <tt class="docutils literal"><span class="pre">(key, value)</span></tt> pairs in the table <tt class="docutils literal"><span class="pre">b</span></tt>. The values can be modified.
 
 </dd>
+<a id="pairsFrom.i,SortedTable[Key,Val],Key"></a>
+<dt><pre><span class="Keyword">iterator</span> <a href="#pairsFrom.i%2CSortedTable%5BKey%2CVal%5D%2CKey"><span class="Identifier">pairsFrom</span></a><span class="Other">[</span><span class="Identifier">Key</span><span class="Other">,</span> <span class="Identifier">Val</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">b</span><span class="Other">:</span> <a href="sorta.html#SortedTable"><span class="Identifier">SortedTable</span></a><span class="Other">[</span><span class="Identifier">Key</span><span class="Other">,</span> <span class="Identifier">Val</span><span class="Other">]</span><span class="Other">;</span> <span class="Identifier">fromKey</span><span class="Other">:</span> <span class="Identifier">Key</span><span class="Other">)</span><span class="Other">:</span> <span class="Keyword">tuple</span><span class="Other">[</span><span class="Identifier">key</span><span class="Other">:</span> <span class="Identifier">Key</span><span class="Other">,</span>
+    <span class="Identifier">val</span><span class="Other">:</span> <span class="Identifier">Val</span><span class="Other">]</span></pre></dt>
+<dd>
+
+Iterates over <tt class="docutils literal"><span class="pre">(key, value)</span></tt> pairs in the table from the given key to the end.
+
+</dd>
+<a id="pairsBetween.i,SortedTable[Key,Val],Key,Key"></a>
+<dt><pre><span class="Keyword">iterator</span> <a href="#pairsBetween.i%2CSortedTable%5BKey%2CVal%5D%2CKey%2CKey"><span class="Identifier">pairsBetween</span></a><span class="Other">[</span><span class="Identifier">Key</span><span class="Other">,</span> <span class="Identifier">Val</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">b</span><span class="Other">:</span> <a href="sorta.html#SortedTable"><span class="Identifier">SortedTable</span></a><span class="Other">[</span><span class="Identifier">Key</span><span class="Other">,</span> <span class="Identifier">Val</span><span class="Other">]</span><span class="Other">;</span> <span class="Identifier">fromKey</span><span class="Other">:</span> <span class="Identifier">Key</span><span class="Other">;</span> <span class="Identifier">toKey</span><span class="Other">:</span> <span class="Identifier">Key</span><span class="Other">)</span><span class="Other">:</span> <span class="Keyword">tuple</span><span class="Other">[</span>
+    <span class="Identifier">key</span><span class="Other">:</span> <span class="Identifier">Key</span><span class="Other">,</span> <span class="Identifier">val</span><span class="Other">:</span> <span class="Identifier">Val</span><span class="Other">]</span></pre></dt>
+<dd>
+
+Iterates over <tt class="docutils literal"><span class="pre">(key, value)</span></tt> pairs in the table from <tt class="docutils literal"><span class="pre">fromKey</span></tt> to <tt class="docutils literal"><span class="pre">toKey</span></tt> inclusive.
+
+</dd>
 
 </dl></div>
 
@@ -345,7 +402,7 @@ Iterates over all <tt class="docutils literal"><span class="pre">(key, value)</s
       <div class="twelve-columns footer">
         <span class="nim-sprite"></span>
         <br/>
-        <small style="color: var(--hint);">Made with Nim. Generated: 2020-02-25 08:34:04 UTC</small>
+        <small style="color: var(--hint);">Made with Nim. Generated: 2020-04-05 15:59:58 UTC</small>
       </div>
     </div>
   </div>
