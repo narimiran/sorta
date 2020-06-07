@@ -417,7 +417,10 @@ test "iterators":
   assert ak == a_keys
   assert ap == a_pairs
 
-
+  let bk = @["cow", "dog", "elephant", "horse"]
+  let bv = @[3, 3, 8, 5]
+  assert toSeq(keysBetween(animalLengths, "cow", "horse")) == bk
+  assert toSeq(valuesBetween(animalLengths, "cow", "horse")) == bv
 
 test "not initialized":
   var a1: SortedTable[int, int]

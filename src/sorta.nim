@@ -479,7 +479,7 @@ iterator entriesFrom[Key, Val](b: SortedTable[Key, Val],
     yield cursor.current
 
 iterator entriesBetween[Key, Val](b: SortedTable[Key, Val],
-                                   fromKey: Key, toKey: Val): CursorPosition[Key, Val] =
+                                  fromKey: Key, toKey: Key): CursorPosition[Key, Val] =
   ## Iterates the sorted table from fromKey to toKey inclusive.
   var cursor = b.search(fromKey)
   while cursor.next:
